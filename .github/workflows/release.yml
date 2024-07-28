@@ -65,9 +65,16 @@ jobs:
           ./build_ffmpeg.sh \
           "${FFMPEG_MODULE_PATH}" "${NDK_PATH}" "${HOST_PLATFORM}" "${ANDROID_ABI}" "${ENABLED_DECODERS[@]}"
 
+      - name: Clone Media3 Exoplayer FFmpeg
+        run: |
+          cd "$GITHUB_WORKSPACE"
+          cd media
+          chmod +x ./gradlew
+          ./gradlew lib-decoder-ffmpeg:assembleRelease
+
       - name: Upload Media3 Exoplayer FFmpeg
         uses: actions/upload-artifact@v4
         with:
           name: Media3 Exoplayer FFmpeg
           path: |
-            media/libraries/decoder_ffmpeg/ffmpeg/android-libs/*
+            media/libraries/decoder_ffmpeg/buildout/outputs/aar/*
